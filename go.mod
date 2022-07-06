@@ -1,4 +1,4 @@
-module github.com/gotuna/gotuna
+module github.com/Slava12/gotuna
 
 go 1.16
 
