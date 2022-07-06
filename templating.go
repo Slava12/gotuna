@@ -101,6 +101,12 @@ func (t nativeHTML) getHelpers(w http.ResponseWriter, r *http.Request, patterns 
 		"isGuest": func() bool {
 			return t.app.Session.IsGuest(r)
 		},
+		"currentName": func() string {
+			return t.app.Session.GetName(r)
+		},
+		"currentEnvironment": func() string {
+			return t.app.Session.GetEnvironment(r)
+		},
 	}
 	// add custom, user-defined helpers
 	for _, v := range t.app.ViewHelpers {
