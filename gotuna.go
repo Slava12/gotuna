@@ -10,16 +10,16 @@ import (
 // App is the main app dependency store.
 // This is where all the app's dependencies are configured.
 type App struct {
-	Logger         *log.Logger
-	Router         *mux.Router
-	Static         fs.FS
-	StaticPrefix   string
-	ViewFiles      fs.FS
-	ViewHelpers    []ViewHelperFunc
-	Session        *Session
-	SessionName    string
-	UserRepository UserRepository
-	Locale         Locale
+	Logger          *log.Logger
+	Router          *mux.Router
+	Static          fs.FS
+	StaticPrefix    string
+	ViewFiles       fs.FS
+	ViewHelpers     []ViewHelperFunc
+	Session         *Session
+	EnvironmentName string
+	UserRepository  UserRepository
+	Locale          Locale
 }
 
 // NewMuxRouter returns the underlying mux router instance
