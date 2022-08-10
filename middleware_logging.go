@@ -15,7 +15,7 @@ func (app App) Logging() MiddlewareFunc {
 			next.ServeHTTP(w, r)
 
 			if app.Logger != nil {
-				app.Logger.Printf("%s %s %s %s", start.Format(time.RFC3339), r.Method, r.URL.Path, time.Since(start))
+				app.Logger.Debugf("%s %s finished in %s", r.Method, r.URL.Path, time.Since(start))
 			}
 		})
 	}

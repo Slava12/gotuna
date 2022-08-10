@@ -2,9 +2,9 @@ package doubles
 
 import (
 	"errors"
+	log "github.com/sirupsen/logrus"
 	"io/fs"
 	"io/ioutil"
-	"log"
 	"os"
 )
 

@@ -1,8 +1,8 @@
 package gotuna
 
 import (
+	log "github.com/sirupsen/logrus"
 	"io/fs"
-	"log"
 
 	"github.com/gorilla/mux"
 )

@@ -2,18 +2,18 @@ package main
 
 import (
 	"fmt"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"os"
 
+	"github.com/Slava12/gotuna"
+	"github.com/Slava12/gotuna/examples/fullapp"
+	"github.com/Slava12/gotuna/examples/fullapp/i18n"
+	"github.com/Slava12/gotuna/examples/fullapp/static"
+	"github.com/Slava12/gotuna/examples/fullapp/views"
+	"github.com/Slava12/gotuna/test/doubles"
 	"github.com/gorilla/csrf"
 	"github.com/gorilla/sessions"
-	"github.com/gotuna/gotuna"
-	"github.com/gotuna/gotuna/examples/fullapp"
-	"github.com/gotuna/gotuna/examples/fullapp/i18n"
-	"github.com/gotuna/gotuna/examples/fullapp/static"
-	"github.com/gotuna/gotuna/examples/fullapp/views"
-	"github.com/gotuna/gotuna/test/doubles"
 )
 
 func main() {
@@ -27,7 +27,7 @@ func main() {
 	app := fullapp.MakeApp(fullapp.App{
 		App: gotuna.App{
 			Router:         gotuna.NewMuxRouter(),
-			Logger:         log.New(os.Stdout, "", 0),
+			Logger:         nil,
 			UserRepository: doubles.NewUserRepositoryStub(),
 			Session:        gotuna.NewSession(cookieStore, "app_session"),
 			Static:         static.EmbededStatic,

@@ -1,6 +1,6 @@
 package doubles
 
-import "github.com/gotuna/gotuna"
+import "github.com/Slava12/gotuna"
 
 // MemUser1 is a sample in-memory user.
 var MemUser1 = gotuna.InMemoryUser{

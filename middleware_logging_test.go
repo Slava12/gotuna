@@ -2,13 +2,13 @@ package gotuna_test
 
 import (
 	"bytes"
-	"log"
+	log "github.com/sirupsen/logrus"
 	"net/http"
 	"net/http/httptest"
 	"testing"
 
-	"github.com/gotuna/gotuna"
-	"github.com/gotuna/gotuna/test/assert"
+	"github.com/Slava12/gotuna"
+	"github.com/Slava12/gotuna/test/assert"
 )
 
 func TestLogging(t *testing.T) {
@@ -17,8 +17,15 @@ func TestLogging(t *testing.T) {
 
 	wlog := &bytes.Buffer{}
 
+	var logConfig = &log.Logger{
+		Out:       wlog,
+		Formatter: new(log.TextFormatter),
+		Hooks:     make(log.LevelHooks),
+		Level:     log.DebugLevel,
+	}
+
 	app := gotuna.App{
-		Logger: log.New(wlog, "", 0),
+		Logger: logConfig,
 	}
 
 	logger := app.Logging()

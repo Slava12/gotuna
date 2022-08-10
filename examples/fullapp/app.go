@@ -2,16 +2,16 @@ package fullapp
 
 import (
 	"encoding/json"
+	log "github.com/sirupsen/logrus"
 	"html/template"
-	"io"
-	"log"
 	"net/http"
+	"os"
 	"runtime/debug"
 	"strings"
 	"time"
 
+	"github.com/Slava12/gotuna"
 	"github.com/gorilla/csrf"
-	"github.com/gotuna/gotuna"
 )
 
 // App is the main dependency store.
@@ -23,8 +23,15 @@ type App struct {
 // MakeApp creates and configures the App
 func MakeApp(app App) App {
 
+	var logConfig = &log.Logger{
+		Out:       os.Stdout,
+		Formatter: new(log.TextFormatter),
+		Hooks:     make(log.LevelHooks),
+		Level:     log.DebugLevel,
+	}
+
 	if app.Logger == nil {
-		app.Logger = log.New(io.Discard, "", 0)
+		app.Logger = logConfig
 	}
 
 	if app.Locale == nil {
