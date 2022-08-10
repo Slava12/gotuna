@@ -1,9 +1,27 @@
 package gotuna
 
 import (
+	log "github.com/sirupsen/logrus"
 	"net/http"
+	"strings"
 	"time"
 )
+
+func clientIP(r *http.Request) string {
+	clientIP := strings.TrimSpace(r.Header.Get("X-Real-Ip"))
+	if len(clientIP) > 0 {
+		return clientIP
+	}
+	clientIP = r.Header.Get("X-Forwarded-For")
+	if index := strings.IndexByte(clientIP, ','); index >= 0 {
+		clientIP = clientIP[0:index]
+	}
+	clientIP = strings.TrimSpace(clientIP)
+	if len(clientIP) > 0 {
+		return clientIP
+	}
+	return strings.TrimSpace(r.RemoteAddr)
+}
 
 // Logging middleware is used to log every requests to the app's Logger.
 func (app App) Logging() MiddlewareFunc {
@@ -14,8 +32,27 @@ func (app App) Logging() MiddlewareFunc {
 
 			next.ServeHTTP(w, r)
 
+			app.Logger = app.Logger.WithFields(log.Fields{
+				"client_ip": clientIP(r),
+				"method":    r.Method,
+				"url":       r.URL.Path,
+			})
+
+			if app.Session != nil {
+				app.Logger = app.Logger.WithFields(log.Fields{
+					"user_id": app.Session.GetUserID(r),
+				})
+				_, err := app.Session.GetEdoID(r)
+				if err == nil {
+					app.Logger = app.Logger.WithFields(log.Fields{
+						"user_edo_id": app.Session.GetEdoID(r),
+						"user_name":   app.Session.GetName(r),
+					})
+				}
+			}
+
 			if app.Logger != nil {
-				app.Logger.Debugf("%s %s finished in %s", r.Method, r.URL.Path, time.Since(start))
+				app.Logger.Debugf("finished in %s", time.Since(start))
 			}
 		})
 	}
