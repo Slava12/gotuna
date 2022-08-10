@@ -39,13 +39,16 @@ func (app App) Logging() MiddlewareFunc {
 			})
 
 			if app.Session != nil {
-				app.Logger = app.Logger.WithFields(log.Fields{
-					"user_id": app.Session.GetUserID(r),
-				})
-				_, err := app.Session.GetEdoID(r)
+				id, err := app.Session.GetUserID(r)
 				if err == nil {
 					app.Logger = app.Logger.WithFields(log.Fields{
-						"user_edo_id": app.Session.GetEdoID(r),
+						"user_id": id,
+					})
+				}
+				edoID, err := app.Session.GetEdoID(r)
+				if err == nil {
+					app.Logger = app.Logger.WithFields(log.Fields{
+						"user_edo_id": edoID,
 						"user_name":   app.Session.GetName(r),
 					})
 				}
