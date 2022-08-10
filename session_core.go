@@ -85,6 +85,8 @@ func (s Session) Destroy(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	delete(session.Values, UserIDKey)
+	delete(session.Values, UserEdoIDKey)
+	delete(session.Values, UserNameKey)
 	session.Options.MaxAge = -1
 
 	return s.store.Save(r, w, session)
