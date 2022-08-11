@@ -32,7 +32,7 @@ func (app App) Logging() MiddlewareFunc {
 
 			next.ServeHTTP(w, r)
 
-			app.Logger = app.Logger.WithFields(log.Fields{
+			logger := app.Logger.WithFields(log.Fields{
 				"client_ip": clientIP(r),
 				"method":    r.Method,
 				"url":       r.URL.Path,
@@ -41,21 +41,21 @@ func (app App) Logging() MiddlewareFunc {
 			if app.Session != nil {
 				id, err := app.Session.GetUserID(r)
 				if err == nil {
-					app.Logger = app.Logger.WithFields(log.Fields{
+					logger = logger.WithFields(log.Fields{
 						"user_id": id,
 					})
 				}
 				edoID, err := app.Session.GetEdoID(r)
 				if err == nil {
-					app.Logger = app.Logger.WithFields(log.Fields{
+					logger = logger.WithFields(log.Fields{
 						"user_edo_id": edoID,
 						"user_name":   app.Session.GetName(r),
 					})
 				}
 			}
 
-			if app.Logger != nil {
-				app.Logger.Debugf("finished in %s", time.Since(start))
+			if logger != nil {
+				logger.Debugf("finished in %s", time.Since(start))
 			}
 		})
 	}
