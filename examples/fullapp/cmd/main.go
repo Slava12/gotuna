@@ -24,7 +24,7 @@ func main() {
 	cookieStore.Options.HttpOnly = true         // more secure
 	cookieStore.Options.MaxAge = 30 * 24 * 3600 // expire in one month
 
-	app := fullapp.MakeApp(fullapp.App{
+	app := fullapp.MakeApp(nil, fullapp.App{
 		App: gotuna.App{
 			Router:         gotuna.NewMuxRouter(),
 			Logger:         nil,

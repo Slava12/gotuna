@@ -10,7 +10,7 @@ import (
 // App is the main app dependency store.
 // This is where all the app's dependencies are configured.
 type App struct {
-	Logger          *log.Entry
+	Logger          log.FieldLogger
 	Router          *mux.Router
 	Static          fs.FS
 	StaticPrefix    string

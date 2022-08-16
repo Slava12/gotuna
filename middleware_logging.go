@@ -24,7 +24,7 @@ func clientIP(r *http.Request) string {
 }
 
 // Logging middleware is used to log every requests to the app's Logger.
-func (app App) Logging() MiddlewareFunc {
+func (app App) Logging(logger *log.Entry) MiddlewareFunc {
 	return func(next http.Handler) http.Handler {
 		return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 
@@ -32,7 +32,7 @@ func (app App) Logging() MiddlewareFunc {
 
 			next.ServeHTTP(w, r)
 
-			logger := app.Logger.WithFields(log.Fields{
+			logger := logger.WithFields(log.Fields{
 				"client_ip": clientIP(r),
 				"method":    r.Method,
 				"url":       r.URL.Path,

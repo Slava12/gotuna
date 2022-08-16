@@ -21,7 +21,7 @@ type App struct {
 }
 
 // MakeApp creates and configures the App
-func MakeApp(app App) App {
+func MakeApp(logger *log.Entry, app App) App {
 
 	var logConfig = &log.Logger{
 		Out:       os.Stdout,
@@ -55,7 +55,7 @@ func MakeApp(app App) App {
 	// middlewares for all routes
 	app.Router.Handle("/error", handlerError(app)).Methods(http.MethodGet, http.MethodPost)
 	app.Router.Use(app.Recoverer("/error"))
-	app.Router.Use(app.Logging())
+	app.Router.Use(app.Logging(logger))
 	app.Router.Use(app.StoreParamsToContext())
 	app.Router.Use(app.StoreUserToContext())
 	app.Router.Use(app.Csrf)
