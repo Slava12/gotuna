@@ -42,7 +42,7 @@ func (app App) Logging(logger *log.Entry) MiddlewareFunc {
 				id, err := app.Session.GetUserID(r)
 				if err == nil {
 					logger = logger.WithFields(log.Fields{
-						"user_id": id,
+						"user_login": id,
 					})
 				}
 				edoID, err := app.Session.GetEdoID(r)
