@@ -32,6 +32,11 @@ func (app App) Logging(logger *log.Entry) MiddlewareFunc {
 
 			next.ServeHTTP(w, r)
 
+			if strings.HasPrefix(r.URL.Path, "/img") || strings.HasPrefix(r.URL.Path, "/webfonts") ||
+				strings.HasPrefix(r.URL.Path, "/js") || strings.HasPrefix(r.URL.Path, "/css") {
+				return
+			}
+
 			logger := logger.WithFields(log.Fields{
 				"client_ip": clientIP(r),
 				"method":    r.Method,
