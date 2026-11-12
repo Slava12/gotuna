@@ -104,6 +104,9 @@ func (t nativeHTML) getHelpers(w http.ResponseWriter, r *http.Request, patterns 
 		"currentName": func() string {
 			return t.app.Session.GetName(r)
 		},
+		"currentEdoID": func() (string, error) {
+			return t.app.Session.GetEdoID(r)
+		},
 		"currentEnvironment": func() string {
 			return t.app.Session.GetEnvironment(r)
 		},
